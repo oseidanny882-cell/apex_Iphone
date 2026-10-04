@@ -1,0 +1,13 @@
+# Normalise on checkin, LF everywhere on checkout.
+#
+# The site is served as static files straight from the build output, so a stray
+# CR in a CSS or JS file is served to the browser as-is. It usually survives
+# fine, but it can silently break a strict JSON parse or a shebang.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary

@@ -1,0 +1,53 @@
+@media (max-width: 720px) {
+  .nav-shell {
+    gap: 10px;
+  }
+
+  .brand {
+    font-size: 1.1rem;
+  }
+
+  .brand-mark {
+    width: 28px;
+    height: 28px;
+    border-radius: 10px;
+  }
+
+  .section-header {
+    display: block;
+  }
+
+  .section-header > * + * {
+    margin-top: 14px;
+  }
+}
+
+/* Mobile navigation: the dropdown is anchored to the sticky header and stays in view. */
+@media (max-width: 1024px) {
+  .nav-links {
+    z-index: 40;
+    max-height: calc(100dvh - 150px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .nav-links .nav-link {
+    width: 100%;
+    padding: 8px 0;
+  }
+
+  .nav-actions {
+    display: flex;
+    margin-left: auto;
+    gap: 10px;
+  }
+
+  .nav-actions .icon-btn[aria-label="Search"],
+  .nav-actions .icon-btn[aria-label="Wishlist"] {
+    display: none;
+  }
+
+  .mobile-toggle {
+    margin-left: 0;
+  }
+}

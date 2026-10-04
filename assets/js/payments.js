@@ -1,0 +1,1 @@
+// Payment UI; provider verification remains server-side.

@@ -1,0 +1,54 @@
+[
+  {
+    "name": "Storefront home page loads",
+    "sanity": true,
+    "viewport": "desktop",
+    "covers": ["storefront", "home"],
+    "description": "The storefront root URL serves the deployed index page.",
+    "steps": [
+      "Open the storefront root URL",
+      "Wait for the page to render",
+      "Confirm the site header and hero are present"
+    ],
+    "expected": "The Apex iPhone storefront renders at the site root."
+  },
+  {
+    "name": "Storefront stylesheet is applied",
+    "sanity": true,
+    "viewport": "desktop",
+    "covers": ["css", "assets"],
+    "description": "The bundled CSS loads, proving the relative asset paths resolve after the build.",
+    "steps": [
+      "Open the storefront home page",
+      "Inspect the computed background colour of the body",
+      "Confirm the stylesheet requests succeeded"
+    ],
+    "expected": "The page renders with the dark storefront theme rather than unstyled HTML."
+  },
+  {
+    "name": "Shop page is reachable",
+    "sanity": true,
+    "viewport": "desktop",
+    "covers": ["multi page", "shop"],
+    "description": "The shop page builds as its own entry point and keeps its asset references.",
+    "steps": [
+      "Open the storefront root URL",
+      "Navigate to the shop page URL",
+      "Confirm the product grid area renders"
+    ],
+    "expected": "The shop page loads as its own document with no missing stylesheet."
+  },
+  {
+    "name": "Storefront is usable on mobile",
+    "sanity": true,
+    "viewport": "mobile",
+    "covers": ["responsive layout"],
+    "description": "The storefront reflows correctly on a phone viewport.",
+    "steps": [
+      "Open the storefront home page on a mobile viewport",
+      "Scroll down the page",
+      "Check that nothing overflows horizontally"
+    ],
+    "expected": "Content fits the viewport width with no horizontal scrollbar."
+  }
+]

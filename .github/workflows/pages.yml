@@ -1,0 +1,60 @@
+name: deploy pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Least privilege: the job only needs to read the repo and write Pages.
+# GITHUB_TOKEN is supplied automatically to the deploy step.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deploy at a time. Without this, two pushes in quick succession race and
+# the older build can overwrite the newer one on the live site.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: build the storefront
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      # npm ci, not npm install: it installs exactly what package-lock.json
+      # pins and fails if the lockfile disagrees with package.json, so a build
+      # cannot silently pick up a different dependency version than the one
+      # that was tested.
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          # Must be dist/. That is vite.config.ts's outDir, and it holds
+          # .nojekyll and 404.html (copied from public/) alongside the pages.
+          path: dist
+
+  deploy:
+    name: deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

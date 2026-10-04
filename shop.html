@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Browse premium iPhones, cases, chargers, and accessories in Ghana." />
+    <title>Shop — Apex iPhone</title>
+    <link rel="icon" href="favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16.png" />
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
+    <link rel="stylesheet" href="assets/css/reset.css" />
+    <link rel="stylesheet" href="assets/css/variables.css" />
+    <link rel="stylesheet" href="assets/css/global.css" />
+    <link rel="stylesheet" href="assets/css/components.css" />
+    <link rel="stylesheet" href="assets/css/animations.css" />
+    <link rel="stylesheet" href="assets/css/responsive.css" />
+  </head>
+  <body>
+    <header id="site-header"></header>
+
+    <main class="container page">
+      <div class="section-header" style="margin-bottom: 22px;" data-animate>
+        <div>
+          <span class="eyebrow">Browse collection</span>
+          <h1>Shop premium Apple essentials.</h1>
+        </div>
+        <div class="searchbar">
+          <!-- A real <form> so Enter submits rather than doing nothing, and a
+               label rather than only a placeholder: a placeholder disappears as
+               soon as someone types, and it is not what a screen reader reads. -->
+          <form role="search" action="shop.html" method="get">
+            <label for="shop-search" class="sr-only">Search products</label>
+            <input id="shop-search" name="q" type="search" autocomplete="off"
+                   placeholder="Search by model, storage, or SKU"
+                   aria-label="Search products" />
+            <button class="btn btn-primary" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="shop-layout">
+        <aside class="filters" aria-label="Product filters" data-animate>
+          <div class="filter-group">
+            <div class="filter-label">Model</div>
+            <div class="filter-options">
+              <span class="filter-pill">iPhone 15</span>
+              <span class="filter-pill">iPhone 15 Pro</span>
+              <span class="filter-pill">iPhone 16</span>
+              <span class="filter-pill">iPhone 16 Pro</span>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <div class="filter-label">Storage</div>
+            <div class="filter-options">
+              <span class="filter-pill">128GB</span>
+              <span class="filter-pill">256GB</span>
+              <span class="filter-pill">512GB</span>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <div class="filter-label">Condition</div>
+            <div class="filter-options">
+              <span class="filter-pill">New</span>
+              <span class="filter-pill">Refurbished</span>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <div class="filter-label">Price</div>
+            <div class="filter-options">
+              <span class="filter-pill">Under GH₵ 2,500</span>
+              <span class="filter-pill">GH₵ 2,500–5,000</span>
+              <span class="filter-pill">Above GH₵ 5,000</span>
+            </div>
+          </div>
+        </aside>
+
+        <section>
+          <div id="shop-catalog" class="catalog" aria-live="polite"></div>
+        </section>
+      </div>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <script type="module" src="assets/js/app.js"></script>
+  </body>
+</html>

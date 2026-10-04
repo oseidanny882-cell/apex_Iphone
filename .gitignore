@@ -1,0 +1,27 @@
+# Build output. Never committed - GitHub Actions builds it and Pages serves
+# whatever lands in dist/.
+dist/
+
+# Vite caches and build metadata
+.vite/
+
+node_modules/
+
+# Local environment overrides. The API URL is compiled into the bundle at build
+# time via VITE_API_BASE, so a .env here would change local builds only and
+# quietly diverge from what CI publishes.
+.env
+.env.*
+!.env.example
+
+# Editor and OS noise
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Test transcripts
+*.log
+*.out

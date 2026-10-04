@@ -1,0 +1,428 @@
+
+.wishlist-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+
+.wishlist-grid .wishlist-item .product-image {
+  aspect-ratio: 1;
+  max-height: 160px;
+}
+
+.wishlist-grid .wishlist-item .product-image img {
+  object-fit: contain;
+  padding: 10px;
+}
+
+.auth-form {
+  display: grid;
+  gap: 12px;
+  max-width: 440px;
+  margin: 32px auto;
+  padding: 28px;
+  background: var(--surface, #111827);
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.12));
+  border-radius: 8px;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 12px 14px;
+  color: inherit;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 6px;
+}
+
+.form-message {
+  min-height: 20px;
+  margin: 4px 0;
+}
+
+.form-message.error { color: #fca5a5; }
+.form-message.success { color: #86efac; }
+
+.account-panel {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 28px;
+  max-width: 760px;
+  margin: 32px auto;
+  padding: 32px;
+  background: var(--surface, #111827);
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.12));
+  border-radius: 8px;
+}
+
+.account-avatar {
+  display: grid;
+  width: 72px;
+  height: 72px;
+  place-items: center;
+  color: #07111f;
+  background: var(--accent-strong, #5ee7ff);
+  border-radius: 50%;
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.account-details h2 {
+  margin: 8px 0;
+}
+
+.account-info {
+  display: grid;
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.account-info div {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border, rgba(255, 255, 255, 0.12));
+}
+
+.account-info dt {
+  color: var(--muted, rgba(255, 255, 255, 0.64));
+}
+
+.account-info dd {
+  margin: 0;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.account-status {
+  color: #86efac;
+}
+
+.account-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+@media (max-width: 620px) {
+  .account-panel {
+    grid-template-columns: 1fr;
+    padding: 22px;
+  }
+
+  .account-info div {
+    display: grid;
+    gap: 4px;
+  }
+
+  .account-info dd {
+    text-align: left;
+  }
+}
+.card {
+  padding: 18px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.site-footer {
+  border-top: 1px solid var(--border);
+}
+
+.topbar {
+  background: #0b1220;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.85rem;
+}
+
+.topbar-inner {
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.inline-link {
+  color: var(--accent-strong);
+  font-weight: 700;
+  /* reset.css only does `font: inherit` on buttons, so a <button class="inline-link">
+     kept the UA's light `buttonface` background and outset border - the cart's
+     destructive "Remove" rendered as a light filled box on the dark theme.
+     Cleared here so the class reads as a text link on both <a> and <button>. */
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.space-stack > * + * {
+  margin-top: 16px;
+}
+
+.soft-panel {
+  background: rgba(19, 17, 17, 0.6);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+
+/* ---- Static content pages: About, FAQ, Shipping, Terms, Privacy, Contact ---- */
+.content-stack {
+  display: grid;
+  gap: 26px;
+  max-width: 920px;
+}
+
+.content-grid {
+  display: grid;
+  gap: 22px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.info-card {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  padding: 24px;
+}
+
+.info-card h2,
+.info-card h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.info-card p,
+.info-card li {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.stat-row {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.stat-card {
+  padding: 22px;
+  text-align: center;
+}
+
+.stat-card strong {
+  display: block;
+  font-size: 1.55rem;
+  color: var(--accent);
+}
+
+.stat-card span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.step-list {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+.step-list li {
+  position: relative;
+  padding: 16px 22px 16px 64px;
+  color: var(--muted);
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+
+.step-list li::before {
+  counter-increment: step;
+  content: counter(step);
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  color: #07101d;
+  background: linear-gradient(135deg, var(--accent), var(--accent-violet));
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.step-list strong {
+  color: var(--text);
+}
+
+.prose {
+  display: grid;
+  gap: 12px;
+}
+
+.prose h2 {
+  margin: 20px 0 0;
+  font-size: 1.18rem;
+}
+
+.prose h2:first-child {
+  margin-top: 0;
+}
+
+.prose p,
+.prose li {
+  margin: 0;
+  color: var(--muted);
+}
+
+.prose ul,
+.prose ol {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 22px;
+}
+
+.prose a {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.policy-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  padding: 16px 20px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.faq-list {
+  display: grid;
+  gap: 14px;
+}
+
+.faq-item {
+  padding: 20px 24px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+
+.faq-q {
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 0;
+  padding: 0;
+  color: var(--text);
+  font-size: 1.02rem;
+  font-weight: 650;
+  text-align: left;
+}
+
+.faq-q:hover {
+  color: var(--accent);
+}
+
+.faq-item .product-details.is-open {
+  max-height: 1400px;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+
+.info-table {
+  width: 100%;
+  min-width: 540px;
+  border-collapse: collapse;
+}
+
+.info-table th,
+.info-table td {
+  padding: 13px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.94rem;
+}
+
+.info-table thead th {
+  color: var(--text);
+  background: rgba(15, 23, 42, 0.9);
+}
+
+.info-table tbody td {
+  color: var(--muted);
+}
+
+.info-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.contact-grid {
+  display: grid;
+  gap: 22px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  align-items: start;
+}
+
+.contact-methods {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.contact-methods li {
+  display: grid;
+  gap: 3px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.contact-methods li:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.contact-label {
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.contact-placeholder {
+  color: var(--warning);
+  font-weight: 700;
+}
+
+/* A real, live support channel. Deliberately not styled like a placeholder:
+   these details are filled in, so they should read as ordinary contact
+   information rather than as something still waiting to be replaced. */
+.contact-value {
+  color: var(--text);
+  font-weight: 600;
+}
+
