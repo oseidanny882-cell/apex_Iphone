@@ -9,6 +9,7 @@
 // returns one integer, and a faster poll would just spend the customer's battery
 // to notice a status change a few seconds sooner.
 import { api } from "./api.js";
+import { isAuthenticated } from "./auth.js";
 
 const POLL_MS = 60000;
 
@@ -100,16 +101,27 @@ function applyState(data) {
 }
 
 export async function refreshNotificationBadge() {
+  // A visitor has no inbox to poll. Asking anyway would 401 on page load and
+  // then again on every POLL_MS tick while the tab sits open.
+  if (!(await isAuthenticated())) return;
   try {
     applyState(await api("/notifications/unread-count"));
   } catch {
-    // Logged out, or the table is not migrated yet. Leave whatever is on screen.
+    // Not migrated yet, or the session ended mid-page. Leave whatever is on
+    // screen.
   }
 }
 
 async function loadInto(selector) {
   const target = document.querySelector(selector);
   if (!target) return null;
+  // Opening the bell as a visitor shows the invitation, not a fetch that would
+  // answer 401. On a backend without /auth/session this falls back to the old
+  // request, which the catch below already survives.
+  if (!(await isAuthenticated())) {
+    target.innerHTML = `<p class="muted" style="padding:16px;margin:0">Log in to see your notifications.</p>`;
+    return null;
+  }
   try {
     // applyState repaints every [data-notification-list] in the document, which
     // includes this one; `target` is here to fail quietly when the mount is gone

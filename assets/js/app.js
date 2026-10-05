@@ -1,5 +1,5 @@
 import { api } from "./api.js";
-import { renderAccountProfile, renderAuthForm, renderVerifyEmailForm, requireLogin } from "./auth.js";
+import { isAuthenticated, renderAccountProfile, renderAuthForm, renderVerifyEmailForm, requireLogin } from "./auth.js";
 import { renderForgotPasswordForm, renderResetPasswordForm, renderVerifyCodeForm } from "./password-reset.js";
 import { renderWishlistPage } from "./wishlist.js";
 import { openProductModal } from "../components/modal.js";
@@ -33,6 +33,9 @@ function imgFor(p) {
 function escHtml(s) { return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
 
 async function refreshCartBadge() {
+  // Asked before the fetch: /cart answers 401 to a visitor, and that answer
+  // prints in the console even though the catch below swallows it.
+  if (!(await isAuthenticated())) return;
   try {
     const cart = await api("/cart");
     document.querySelectorAll("[data-cart-count]").forEach((el) => { el.textContent = String(cart.count || 0); });
@@ -546,6 +549,9 @@ function setupWishlistToggle() {
 }
 
 async function refreshWishlistState() {
+  // Same reason as refreshCartBadge: no session, no request, no 401 in the
+  // console while the visitor browses.
+  if (!(await isAuthenticated())) return;
   try {
     const wishlist = await api("/wishlist");
     const ids = new Set(wishlist.items.map(i => i.product_id));
@@ -561,6 +567,11 @@ async function refreshWishlistState() {
 async function renderCartPage() {
   const content = document.querySelector("#content");
   if (!content || !window.location.pathname.endsWith("cart.html")) return;
+  // setupProtectedPages has already started a redirect for a visitor, but the
+  // rest of this function would still run until the browser actually navigates
+  // away - fetching /cart as a visitor would print one last 401 in the console
+  // on the way out. The session is known by now, so the guard costs nothing.
+  if (!(await isAuthenticated())) return;
   content.innerHTML = `<p class="muted">Loading your cart…</p>`;
   try {
     const cart = await api("/cart");
@@ -694,7 +705,9 @@ async function initializeStorefront() {
 initializeStorefront();
 
 try {
-  api("/health");
+  // await so a failure is caught here instead of escaping as an unhandled
+  // promise rejection in the console.
+  await api("/health");
 } catch (error) {
   console.info("API health check skipped in static preview mode.");
 }

@@ -5,6 +5,7 @@
 // order leaves the cart untouched, so the customer only has to fix the field the
 // server complained about and submit again.
 import { api } from "./api.js";
+import { isAuthenticated } from "./auth.js";
 
 // Mirrors GHANA_REGIONS in backend/app/schemas/order.py. The server validates
 // this again; the list exists so the customer picks a region instead of typing
@@ -155,6 +156,9 @@ function formHtml() {
 export async function renderCheckoutPage() {
   const content = document.querySelector("#content");
   if (!content || !window.location.pathname.endsWith("checkout.html")) return;
+  // Self-started while requireLogin()'s redirect for a visitor is still in
+  // flight: /cart would answer 401 on the way out of the page.
+  if (!(await isAuthenticated())) return;
 
   content.innerHTML = `<p class="muted">Loading your cart…</p>`;
 

@@ -7,16 +7,54 @@ function esc(s) {
 }
 
 export async function getCurrentUser() {
-  try {
-    return await api("/auth/me");
-  } catch {
-    return null;
+  // One /auth/me per page load: requireLogin, the account profile and the
+  // settings panel can all ask for the same user. Every flow that changes the
+  // session (login, logout, verification, reset) navigates away, so a settled
+  // answer cannot go stale while this page is alive.
+  if (!mePromise) mePromise = api("/auth/me").catch(() => null);
+  return mePromise;
+}
+
+let mePromise;
+
+// Whether this browser holds a usable session. Asked once per page load and
+// memoised for the same reason as getCurrentUser.
+//
+// /auth/me answers an anonymous visitor with 401, and a 401 reaches the
+// browser console as a failed resource even when the calling code catches it.
+// /auth/session exists so the common question - "is anyone signed in?" - gets
+// a 200 either way. null means unknown (an older backend without the
+// endpoint, or a failed request); callers fall back to the /auth/me probe
+// rather than guessing.
+let sessionState;
+export function getSession() {
+  if (sessionState === undefined) {
+    sessionState = api("/auth/session")
+      .then((s) => Boolean(s && s.authenticated))
+      .catch(() => null);
   }
+  return sessionState;
+}
+
+// true only when a signed-in session is known. On a backend that predates
+// /auth/session this falls back to the /auth/me probe, so nothing that works
+// today stops working during the rollout; once the endpoint is deployed the
+// probe disappears with it.
+export async function isAuthenticated() {
+  const state = await getSession();
+  if (state === null) return Boolean(await getCurrentUser());
+  return state;
 }
 
 export async function requireLogin() {
-  const user = await getCurrentUser();
-  if (user) return user;
+  // A visitor who is known to be logged out is redirected without probing
+  // /auth/me: that probe answers 401, and it would print in the console on
+  // every visit to a protected page. state === null (older backend) keeps the
+  // old probe-then-redirect behaviour.
+  if ((await getSession()) !== false) {
+    const user = await getCurrentUser();
+    if (user) return user;
+  }
 
   const next = `${window.location.pathname}${window.location.search}`;
   window.location.href = `login.html?next=${encodeURIComponent(next)}`;

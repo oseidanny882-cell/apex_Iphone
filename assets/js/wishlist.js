@@ -1,11 +1,28 @@
 // Wishlist page renderer
 import { api } from "./api.js";
+import { isAuthenticated } from "./auth.js";
 
 function escHtml(s) { return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
 
 async function renderWishlistPage() {
   const content = document.querySelector("#content");
   if (!content || !window.location.pathname.endsWith("wishlist.html")) return;
+
+  // A visitor gets the invitation instead of the fetch: /wishlist would answer
+  // 401, and the browser prints that status in the console on page load. The
+  // wishlist link sits in the main nav, so this is a normal place to arrive.
+  if (!(await isAuthenticated())) {
+    content.innerHTML = `
+      <div class="soft-panel" style="padding:28px">
+        <h2>Save items you love</h2>
+        <p class="muted">Log in to keep your wishlist in sync across devices.</p>
+        <p>
+          <a class="btn btn-primary" href="login.html?next=wishlist.html">Log in</a>
+          <a class="btn btn-secondary" href="shop.html">Browse shop</a>
+        </p>
+      </div>`;
+    return;
+  }
 
   content.innerHTML = '<p class="muted">Loading your wishlist…</p>';
   try {

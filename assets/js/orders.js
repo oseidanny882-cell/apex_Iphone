@@ -3,6 +3,7 @@
 // Same markup language as the cart page in app.js — soft-panel cards rather than
 // a table, because most customers read this on a phone.
 import { api } from "./api.js";
+import { isAuthenticated } from "./auth.js";
 
 const STATUS_LABELS = {
   pending: "Pending — awaiting our call",
@@ -62,6 +63,9 @@ function itemsHtml(order) {
 export async function renderOrdersPage() {
   const content = document.querySelector("#content");
   if (!content || !window.location.pathname.endsWith("orders.html")) return;
+  // Self-started while requireLogin()'s redirect for a visitor is still in
+  // flight: /orders would answer 401 on the way out of the page.
+  if (!(await isAuthenticated())) return;
 
   content.innerHTML = `<p class="muted">Loading your orders…</p>`;
   try {
@@ -99,6 +103,8 @@ export async function renderOrdersPage() {
 export async function renderOrderDetailsPage() {
   const content = document.querySelector("#content");
   if (!content || !window.location.pathname.endsWith("order-details.html")) return;
+  // Same redirect race as renderOrdersPage above.
+  if (!(await isAuthenticated())) return;
 
   const id = new URLSearchParams(window.location.search).get("id");
   if (!id) {

@@ -5,6 +5,7 @@
 // account that is logged in. Email addresses are immutable by design: no
 // endpoint exists to change any email, for any user, including the admin.
 import { api } from "./api.js";
+import { isAuthenticated } from "./auth.js";
 
 function escHtml(s) {
   return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -53,6 +54,11 @@ function panelHtml() {
 export async function renderAccountSettings() {
   const mount = document.querySelector("#account-settings");
   if (!mount || !window.location.pathname.endsWith("account.html")) return;
+
+  // This module self-starts alongside app.js, so for a visitor it runs while
+  // requireLogin()'s redirect is still in flight. Asking /auth/me here would
+  // print one last 401 in the console on the way out.
+  if (!(await isAuthenticated())) return;
 
   const me = await api("/auth/me").catch(() => null);
   if (!me) return; // requireLogin() in app.js already handles the redirect.
